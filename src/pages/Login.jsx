@@ -18,7 +18,7 @@ export const action =
     } catch (error) {
       const errorMessage =
         error?.response?.data?.error?.message ||
-        "please double check oyur credentials";
+        "please double check your credentials";
       toast.error(errorMessage);
       return null;
     }

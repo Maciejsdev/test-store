@@ -1,4 +1,4 @@
-import { Form } from "react-router-dom";
+import { Form, redirect } from "react-router-dom";
 import FormInput from "./FormInput";
 import SubmitBtn from "./SubmitBtn";
 import { customFetch, formatPrice } from "../utils";
@@ -22,7 +22,7 @@ export const action =
       numItemsInCart,
     };
     try {
-      const response = await customFetch.post(
+      await customFetch.post(
         "/orders",
         { data: info },
         { headers: { Authorization: `Bearer ${user.token}` } }
@@ -34,6 +34,8 @@ export const action =
         error?.response?.data?.error?.message ||
         "there was an error placing your order";
       toast.error(errorMessage);
+      if (error.response.status === 401 || error.response.status === 403)
+        return redirect("/login");
       return null;
     }
   };
